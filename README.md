@@ -44,7 +44,8 @@ This is precisely how **RayAttention** works: we create "wormholes" in the featu
 
 We compared the proposed **RayAttention** with standard **MultiHead Attention** on a classification task (20 Newsgroups). The models shared the same configuration (d_model=256, 4 layers).
 
-![FLOPs reduction](plots/flops_vs_seqlen_en.png)
+## FLOPs reduction
+![](plots/flops_vs_seqlen_en.png)
 
 | seq_len | ray (ms) | multihead (ms) | wormhole (ms) | Ускорение wormhole vs multihead |
 |--------:|---------:|---------------:|--------------:|--------------------------------:|
@@ -53,7 +54,7 @@ We compared the proposed **RayAttention** with standard **MultiHead Attention** 
 | 512     | 1.66     | 2.37           | 1.73          | 1.37x                           |
 | 1024    | 1.72     | 6.12           | 1.67          | 3.66x                           |
 | 2048    | 3.36     | 20.13          | 2.97          | 6.79x                           |
-
+![](plots/time_vs_seqlen_en.png)
 ### Real inference acceleration
 
 On a GTX 1660 Super GPU (without using `torch.compile`), RayAttention demonstrates a speedup of up to **X times** on long sequences (exact figures will be available once the benchmark is complete).
