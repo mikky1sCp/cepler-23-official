@@ -59,7 +59,17 @@ We compared the proposed **RayAttention** with standard **MultiHead Attention** 
 
 With short sequences, the Wormhole adaptation overhead may be noticeable, but with long ones, it yields the greatest benefit.
 
+## 📦 Installation
+
+```bash
+git clone https://github.com/mikky1sCp/cepler-23-official.git
+CD cepler-23-official
+pip install -r requirements.txt
+python setup.py install
+```
+
 ## 💻 Usage example
+
 ```python
 import torch
 from cepler.models.transformer import CustomTransformer
@@ -83,15 +93,30 @@ x = torch.randint(0, 5000, (4, 128)).cuda()
 logits, exit_block, confidence = model(x, exit_threshold=0.95)
 print(f"Output layer: {exit_block}, confidence: {confidence}")
 ```
+## 🧪 Running benchmarks
+All benchmarks are located in the `scripts/` folder. Run them all:
+```bash
+python scripts/run_all_benchmarks.py
+```
+Or separately:
+```bash
+python scripts/benchmark_flops.py          # FLOPs for seq_len=512
+python scripts/benchmark_scale_flops.py    # FLOPs vs. seq_len plot
+python scripts/benchmark_time.py           # inference time plot
+python scripts/visualize_wormholes.py      # token distribution across beams
+```
+## 📁 Project structure
+```Cepler-23/
+├── src/cepler/            # main package
+│   ├── models/            # Transformer, RayAttention, Wormhole
+│   └── utils/             # energy monitor, quantization, FLOPs hooks
+├── scripts/               # training and benchmarking scripts
+├── plots/                 # generated plots
+├── examples/              # usage examples
+├── README.md
+├── requirements.txt
+└── setup.py
+```
 ### Real inference acceleration
 
 On a GTX 1660 Super GPU (without using `torch.compile`), RayAttention demonstrates a speedup of up to **X times** on long sequences (exact figures will be available once the benchmark is complete).
-
-## 📦 Installation
-
-```bash
-git clone https://github.com/mikky1sCp/cepler-23-official.git
-CD cepler-23-official
-pip install -r requirements.txt
-python setup.py install
-```
