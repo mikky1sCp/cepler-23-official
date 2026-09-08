@@ -1,9 +1,7 @@
-# scripts/run_all_benchmarks.py
 import subprocess
 import sys
 import os
 
-# List of scripts to run (all in the scripts/ folder)
 scripts = [
     "benchmark_flops.py",
     "benchmark_scale_flops.py",
