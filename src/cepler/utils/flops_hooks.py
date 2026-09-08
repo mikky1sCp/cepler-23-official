@@ -1,4 +1,3 @@
-# cepler/utils/flops_hooks.py
 def ray_attention_flops_hook(module, input, output):
     x = input[0]
     batch, seq, d = x.shape
