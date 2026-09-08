@@ -1,5 +1,3 @@
-
-
 import torch
 import torch.nn as nn
 from cepler.models.transformer import TransformerBlock
