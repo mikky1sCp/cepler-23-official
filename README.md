@@ -44,7 +44,7 @@ This is precisely how **RayAttention** works: we create "wormholes" in the featu
 
 We compared the proposed **RayAttention** with standard **MultiHead Attention** on a classification task (20 Newsgroups). The models shared the same configuration (d_model=256, 4 layers).
 
-![FLOPs reduction](plots/flops_vs_seqlen_compare.png)
+![FLOPs reduction](plots/flops_vs_seqlen_en.png)
 
 | seq_len | ray (ms) | multihead (ms) | wormhole (ms) | Ускорение wormhole vs multihead |
 |--------:|---------:|---------------:|--------------:|--------------------------------:|
