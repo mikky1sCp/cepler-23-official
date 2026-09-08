@@ -1,4 +1,3 @@
-# src/cepler/models/wormhole_attention.py
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -17,7 +16,7 @@ class DynamicRayAttention(nn.Module):
         self.d_model = d_model
         self.base_rays = base_rays
         self.adaptive = adaptive
-        self.use_einsum = use_einsum          # <-- теперь есть
+        self.use_einsum = use_einsum
         self.sparse_rays = sparse_rays
         self.residual_echo = residual_echo
         self.quantize_rays = quantize_rays
