@@ -6,9 +6,7 @@ import math
 from cepler.utils.quantized_linear import QuantizedLinear
 from cepler.models.wormhole_attention import DynamicRayAttention
 
-# ----------------------------------------------------------------------
-# Кэш лучей (для генерации)
-# ----------------------------------------------------------------------
+# Кэш лучей
 class RayCache:
     def __init__(self):
         self.cached_rays = None
@@ -23,9 +21,7 @@ class RayCache:
     def reset(self):
         self.cached_rays = None
 
-# ----------------------------------------------------------------------
-# Multi‑Head Attention (стандартный)
-# ----------------------------------------------------------------------
+# Multi‑Head Attention стандарт
 class MultiHeadAttention(nn.Module):
     def __init__(self, d_model, num_heads):
         super().__init__()
@@ -51,9 +47,7 @@ class MultiHeadAttention(nn.Module):
         out = out.transpose(1, 2).contiguous().view(batch, seq_len, self.d_model)
         return self.W_o(out)
 
-# ----------------------------------------------------------------------
-# Вспомогательная функция для слияния ядер (RayAttention)
-# ----------------------------------------------------------------------
+# Вспомогательная функция для слияния ядер 
 def _fused_ray_attention(x_perm, ray_weights, sparse_rays=False, residual_echo=False):
     rays = torch.einsum('bcl, cr -> brl', x_perm, ray_weights)
     if sparse_rays:
@@ -77,9 +71,7 @@ if hasattr(torch, 'compile'):
     except Exception as e:
         print(f"RayAttention: torch.compile failed, using eager mode. Error: {e}")
 
-# ----------------------------------------------------------------------
 # RayAttention (статический, оригинальный)
-# ----------------------------------------------------------------------
 class RayAttention(nn.Module):
     def __init__(self, d_model, num_rays=8,
                  use_einsum=True, sparse_rays=False,
@@ -154,9 +146,7 @@ class RayAttention(nn.Module):
         out = self.W_o(out)
         return out
 
-# ----------------------------------------------------------------------
 # Lightweight FFN (низкоранговая версия)
-# ----------------------------------------------------------------------
 class LightweightFFN(nn.Module):
     def __init__(self, d_model, d_ff, rank=None):
         super().__init__()
@@ -173,9 +163,7 @@ class LightweightFFN(nn.Module):
         x = self.dropout(x)
         return self.fc3(x)
 
-# ----------------------------------------------------------------------
 # FeedForward (стандартный или квантизированный)
-# ----------------------------------------------------------------------
 class FeedForward(nn.Module):
     def __init__(self, d_model, d_ff, quantize=False, bits=4):
         super().__init__()
@@ -190,9 +178,6 @@ class FeedForward(nn.Module):
     def forward(self, x):
         return self.fc2(self.dropout(F.relu(self.fc1(x))))
 
-# ----------------------------------------------------------------------
-# TransformerBlock
-# ----------------------------------------------------------------------
 class TransformerBlock(nn.Module):
     def __init__(self, d_model, num_heads, d_ff,
                  attention_type='multihead', num_rays=8,
@@ -237,9 +222,6 @@ class TransformerBlock(nn.Module):
         x = self.norm2(x + self.dropout(ff_out))
         return x
 
-# ----------------------------------------------------------------------
-# CustomTransformer
-# ----------------------------------------------------------------------
 class CustomTransformer(nn.Module):
     def __init__(self, vocab_size=10000, d_model=256, num_heads=8, d_ff=512,
                  num_layers=6, num_classes=10, max_len=128,
