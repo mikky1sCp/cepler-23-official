@@ -1,4 +1,4 @@
-import pynvml  # используем pynvml (из nvidia-ml-py)
+import pynvml
 import time
 import torch
 
