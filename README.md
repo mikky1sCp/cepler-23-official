@@ -1,4 +1,8 @@
-# Cepler-23: Energy-Efficient Transformer
+# Cepler-23: RayAttention Transformer
+
+**Cepler-23** is a lightweight, fast Transformer model in which standard attention is replaced by **RayAttention**—a mechanism inspired by the concept of "wormholes." Instead of quadratic O(n²) complexity, we achieve linear O(n * rays) complexity, where *rays* is a fixed number of rays (defaulting to 8).
+
+> 🕳️ *Imagine that each token communicates not with every other token, but only through a few "portals" (beams). It is as if an entire country exchanged messages via eight satellites rather than millions of direct wires.*
 
 ## RayAttention Architecture: Connectivity via "Wormholes"
 
