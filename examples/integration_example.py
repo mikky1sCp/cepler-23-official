@@ -1,4 +1,4 @@
-# Пример замены MultiHeadAttention на RayAttention в существующей модели
+
 
 import torch
 import torch.nn as nn
