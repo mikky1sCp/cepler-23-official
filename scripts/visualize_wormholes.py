@@ -1,4 +1,3 @@
-# scripts/visualize_wormholes.py
 import torch
 import matplotlib.pyplot as plt
 import numpy as np
