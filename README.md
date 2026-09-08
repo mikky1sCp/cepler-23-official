@@ -57,6 +57,32 @@ We compared the proposed **RayAttention** with standard **MultiHead Attention** 
 
 ![](plots/time_vs_seqlen_en.png)
 
+With short sequences, the Wormhole adaptation overhead may be noticeable, but with long ones, it yields the greatest benefit.
+
+## 💻 Usage example
+```python
+import torch
+from cepler.models.transformer import CustomTransformer
+
+# Создаём модель с Wormhole
+model = CustomTransformer(
+    vocab_size=5000,
+    d_model=256,
+    num_heads=8,
+    d_ff=512,
+    num_layers=4,
+    num_classes=2,
+    max_len=128,
+    attention_type='wormhole',   # 'ray', 'multihead' или 'wormhole'
+    num_rays=8,
+    lightweight_ffn=True,
+    ffn_rank=64,
+).cuda()
+
+x = torch.randint(0, 5000, (4, 128)).cuda()
+logits, exit_block, confidence = model(x, exit_threshold=0.95)
+print(f"Выходной слой: {exit_block}, уверенность: {confidence}")
+```
 ### Real inference acceleration
 
 On a GTX 1660 Super GPU (without using `torch.compile`), RayAttention demonstrates a speedup of up to **X times** on long sequences (exact figures will be available once the benchmark is complete).
