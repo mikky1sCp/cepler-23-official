@@ -45,13 +45,13 @@ This is precisely how **RayAttention** works: we create "wormholes" in the featu
 We compared the proposed **RayAttention** with standard **MultiHead Attention** on a classification task (20 Newsgroups). The models shared the same configuration (d_model=256, 4 layers).
 
 
-| seq_len | Ray (GFLOPs) | Multihead (GFLOPs) | Decline FLOPs |
-|---------|--------------|-------------------|----------------|
-| 128     | 0.26         | 0.60              | 57%            |
-| 256     | 0.52         | 1.34              | 62%            |
-| 512     | 1.03         | 3.22              | 68%            |
-| 1024    | 2.06         | 8.59              | 76%            |
-| 2048    | 4.13         | 25.77             | **84%**        |
+| seq_len | ray (ms) | multihead (ms) | wormhole (ms) | Ускорение wormhole vs multihead |
+|--------:|---------:|---------------:|--------------:|--------------------------------:|
+| 128     | 1.42     | 1.54           | 1.59          | 0.97x (чуть медленнее)          |
+| 256     | 1.52     | 1.60           | 1.86          | 0.86x (медленнее)               |
+| 512     | 1.66     | 2.37           | 1.73          | 1.37x                           |
+| 1024    | 1.72     | 6.12           | 1.67          | 3.66x                           |
+| 2048    | 3.36     | 20.13          | 2.97          | 6.79x                           |
 
 ### Real inference acceleration
 
