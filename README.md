@@ -2,16 +2,22 @@
 
 **Cepler-23** is an experimental transformer architecture that replaces quadratic self-attention with **Ray Attention**. Instead of pairwise interaction between all tokens, each token is projected onto a fixed number of directions (rays), resulting in linear complexity of **O(n × K)** rather than **O(n²)**.
 
-## Key results
+## Results
 
-| Length | Model | Batch | Throughput (samples/s) | Energy per sample (Wh) | Speedup | Energy savings |
-|--------|-------|-------|------------------------|------------------------|---------|----------------|
-| 512    | Ray   | 16    | 334                    | 0.000049               | 2.52x   | 63.6%          |
-| 512    | Multi | 16    | 129                    | 0.000131               |         |                |
-| 2048   | Ray   | 8     | 84.4                   | 0.000203               | 6.26x   | 85.2%          |
-| 2048   | Multi | 8     | 13.5                   | 0.001374               |         |                |
+We compared the proposed **RayAttention** with standard **MultiHead Attention** on a classification task (20 Newsgroups). The models shared the same configuration (d_model=256, 4 layers).
 
-At a sequence length of **2048** tokens, RayAttention is **6.26 times faster** and consumes **85% less energy**.
+
+| seq_len | Ray (GFLOPs) | Multihead (GFLOPs) | Decline FLOPs |
+|---------|--------------|-------------------|----------------|
+| 128     | 0.26         | 0.60              | 57%            |
+| 256     | 0.52         | 1.34              | 62%            |
+| 512     | 1.03         | 3.22              | 68%            |
+| 1024    | 2.06         | 8.59              | 76%            |
+| 2048    | 4.13         | 25.77             | **84%**        |
+
+### Real inference acceleration
+
+On a GTX 1660 Super GPU (without using `torch.compile`), RayAttention demonstrates a speedup of up to **X times** on long sequences (exact figures will be available once the benchmark is complete).
 
 ## Features
 - **Ray Attention** – projection onto K rays (default: 8).
