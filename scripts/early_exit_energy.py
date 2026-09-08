@@ -6,10 +6,7 @@ from cepler.utils.energy_monitor import EnergyMonitor
 from sklearn.datasets import fetch_20newsgroups
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
-
-# ----------------------------------------------------------------------
-# Датасет (дублируем для самодостаточности)
-# ----------------------------------------------------------------------
+# Датасет
 class TextDataset(Dataset):
     def __init__(self, texts, labels, vocab_size=5000, max_len=64):
         self.labels = labels
@@ -30,9 +27,7 @@ class TextDataset(Dataset):
     def __getitem__(self, idx):
         return self.X[idx], self.y[idx]
 
-# ----------------------------------------------------------------------
 # Основная функция
-# ----------------------------------------------------------------------
 def test_energy():
     categories = ['comp.graphics', 'sci.space']
     newsgroups = fetch_20newsgroups(subset='test', categories=categories, shuffle=True, random_state=42)
@@ -42,8 +37,6 @@ def test_energy():
     dataset = TextDataset(texts, labels, vocab_size=5000, max_len=64)
     loader = DataLoader(dataset, batch_size=16, shuffle=False)
 
-    # Создаём модель с теми же параметрами, что и при обучении:
-    # max_len=64, lightweight_ffn=True, ffn_rank=64
     model = CustomTransformer(
         vocab_size=5000,
         d_model=256,
@@ -62,7 +55,6 @@ def test_energy():
     # Загружаем веса
     try:
         state_dict = torch.load('ray_transformer_light.pth')
-        # Если размер pos_encoding не совпадает, удалим его (его всё равно перезапишут)
         state_dict.pop('pos_encoding', None)
         model.load_state_dict(state_dict, strict=False)
         print("Loaded ray_transformer_light.pth")
