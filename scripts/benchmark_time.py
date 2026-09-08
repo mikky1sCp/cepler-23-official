@@ -1,4 +1,3 @@
-# scripts/benchmark_time.py
 import torch
 import time
 from cepler.models.transformer import CustomTransformer
