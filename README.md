@@ -64,7 +64,7 @@ With short sequences, the Wormhole adaptation overhead may be noticeable, but wi
 import torch
 from cepler.models.transformer import CustomTransformer
 
-# Создаём модель с Wormhole
+# Creating a model with Wormhole
 model = CustomTransformer(
     vocab_size=5000,
     d_model=256,
@@ -73,7 +73,7 @@ model = CustomTransformer(
     num_layers=4,
     num_classes=2,
     max_len=128,
-    attention_type='wormhole',   # 'ray', 'multihead' или 'wormhole'
+    attention_type='wormhole',   # 'ray', 'multihead' or 'wormhole'
     num_rays=8,
     lightweight_ffn=True,
     ffn_rank=64,
@@ -81,7 +81,7 @@ model = CustomTransformer(
 
 x = torch.randint(0, 5000, (4, 128)).cuda()
 logits, exit_block, confidence = model(x, exit_threshold=0.95)
-print(f"Выходной слой: {exit_block}, уверенность: {confidence}")
+print(f"Output layer: {exit_block}, confidence: {confidence}")
 ```
 ### Real inference acceleration
 
