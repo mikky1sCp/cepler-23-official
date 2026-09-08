@@ -54,7 +54,9 @@ We compared the proposed **RayAttention** with standard **MultiHead Attention** 
 | 512     | 1.66     | 2.37           | 1.73          | 1.37x                           |
 | 1024    | 1.72     | 6.12           | 1.67          | 3.66x                           |
 | 2048    | 3.36     | 20.13          | 2.97          | 6.79x                           |
+
 ![](plots/time_vs_seqlen_en.png)
+
 ### Real inference acceleration
 
 On a GTX 1660 Super GPU (without using `torch.compile`), RayAttention demonstrates a speedup of up to **X times** on long sequences (exact figures will be available once the benchmark is complete).
