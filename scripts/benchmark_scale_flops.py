@@ -1,4 +1,3 @@
-# scripts/benchmark_scale_flops.py
 import torch
 from torch.utils.flop_counter import FlopCounterMode
 from cepler.models.transformer import CustomTransformer
