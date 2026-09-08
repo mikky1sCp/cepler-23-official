@@ -1,6 +1,28 @@
-# Cepler-23: Energy-Efficient Transformer with Ray Attention
+# Cepler-23: Energy-Efficient Transformer
 
-**Cepler-23** is an experimental transformer architecture that replaces quadratic self-attention with **Ray Attention**. Instead of pairwise interaction between all tokens, each token is projected onto a fixed number of directions (rays), resulting in linear complexity of **O(n × K)** rather than **O(n²)**.
+## RayAttention Architecture: Connectivity via "Wormholes"
+
+### The Problem with Standard Attention
+In classic Transformers, every token (a word or a segment of text) "communicates" with every other token. This requires a vast number of operations: if we have a sequence of `n` tokens, the number of connections grows at a rate of `n²`. For long texts (e.g., 2048 tokens), this becomes prohibitively expensive in terms of both memory and time.
+
+### Our solution: rays as wormholes
+We propose replacing the full network of connections with a **fixed set of "rays"** (8 in our implementation). These rays function like **wormholes**:
+- Each token projects onto all the rays (sending its signal into each wormhole).
+- The rays aggregate information from all tokens, creating a compressed representation.
+- The rays then exchange data with one another.
+- Finally, each token receives the aggregated signal back from all the rays.
+- 
+Instead of every token "calling" every other token (as in standard attention), tokens communicate only through 8 "portals." This reduces complexity from `O(n²)` to `O(n * 8)`, where 8 is a constant.
+
+### Practical Advantages
+- **Computational Efficiency:** For a sequence length of 512 tokens, our method requires **3.12 times fewer FLOPs** than standard attention.
+- **Scalability:** The advantage grows as the sequence length increases. At 2048 tokens, the reduction in FLOPs reaches **84%** (see the graph below).
+- **Real-world Speedup:** On a GTX 1660 Super, we observe an inference speedup of up to **~6x** for long sequences.
+
+### A Real-World Analogy
+Imagine that all the cities in a country need to exchange information. Instead of building direct roads between every pair of cities (which would require millions of kilometers of asphalt), we build **8 major hubs** (spokes). Each city sends its messages to the nearest hub, the hubs exchange summaries with one another, and then each city receives the aggregated information from all the hubs. This approach is cheaper, faster, and scalable to thousands of cities.
+
+This is precisely how **RayAttention** works: we create "wormholes" in the feature space through which information passes almost instantaneously, without the quadratic explosion of connections.
 
 ## Results
 
