@@ -4,6 +4,18 @@
 
 > 🕳️ *Imagine that each token communicates not with every other token, but only through a few "portals" (beams). It is as if an entire country exchanged messages via eight satellites rather than millions of direct wires.*
 
+---
+
+## ✨ Features
+
+- **Linear complexity** — scales to long sequences (up to 2048+ tokens).
+- **Energy efficiency** — reduces FLOPs by up to **84%** at a sequence length of 2048 compared to Multi-Head Attention.
+- **Real-world speedup** — up to **6×** faster on a GTX 1660 Super (without `torch.compile`).
+- **Built-in early exit** — allows exiting the model when confidence is high, saving resources.
+- **Weight quantization** (4-bit) and **low-rank FFN** for further compression.
+
+---
+
 ## RayAttention Architecture: Connectivity via "Wormholes"
 
 ### The Problem with Standard Attention
@@ -45,4 +57,11 @@ We compared the proposed **RayAttention** with standard **MultiHead Attention** 
 
 On a GTX 1660 Super GPU (without using `torch.compile`), RayAttention demonstrates a speedup of up to **X times** on long sequences (exact figures will be available once the benchmark is complete).
 
+## 📦 Installation
 
+```bash
+git clone https://github.com/mikky1sCp/cepler-23-official.git
+CD cepler-23-official
+pip install -r requirements.txt
+python setup.py install
+```
